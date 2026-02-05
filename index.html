@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RGB → HEX | Color Studio</title>
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body class="bg-app">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <span class="brand-dot"></span>
+        <span class="fw-semibold">Color Studio</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#controls">Controles</a></li>
+          <li class="nav-item"><a class="nav-link" href="#preview">Vista previa</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">Acerca</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4 py-lg-5">
+    <!-- Encabezado -->
+    <header class="mb-4">
+      <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-2">
+        <div>
+          <h1 class="display-6 fw-bold mb-1">Selector RGB → HEX</h1>
+          <p class="text-secondary mb-0">
+            Ajusta sliders, escribe valores o usa el picker. Todo se sincroniza en tiempo real.
+          </p>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary" id="btnRandom" type="button">
+            Aleatorio
+          </button>
+          <button class="btn btn-outline-dark" id="btnReset" type="button">
+            Reiniciar
+          </button>
+          <button class="btn btn-primary" id="btnCopy" type="button">
+            Copiar HEX
+          </button>
+        </div>
+      </div>
+      <div class="mt-2">
+        <span class="small text-success d-none" id="copiedMsg">Copiado ✅</span>
+      </div>
+    </header>
+
+    <div class="row g-4">
+      <!-- Card controles -->
+      <section class="col-12 col-lg-6" id="controls">
+        <div class="card card-soft shadow-sm h-100">
+          <div class="card-header bg-white border-0 pb-0">
+            <div class="d-flex align-items-center justify-content-between">
+              <h2 class="h5 mb-0">Controles</h2>
+              <span class="badge text-bg-light border">
+                <span class="text-secondary">Rango:</span> 0–255
+              </span>
+            </div>
+            <p class="text-secondary small mb-0 mt-2">
+              Modifica los canales o elige un color. La conversión a HEX es automática.
+            </p>
+          </div>
+
+          <div class="card-body">
+            <!-- Sliders -->
+            <div class="vstack gap-3">
+              <!-- Rojo -->
+              <div class="p-3 rounded-4 border bg-white">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <label for="rRange" class="form-label mb-0 fw-semibold">
+                    Rojo (R)
+                  </label>
+                  <span class="badge text-bg-danger" id="rVal">0</span>
+                </div>
+                <input type="range" class="form-range" min="0" max="255" value="0" id="rRange" />
+              </div>
+
+              <!-- Verde -->
+              <div class="p-3 rounded-4 border bg-white">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <label for="gRange" class="form-label mb-0 fw-semibold">
+                    Verde (G)
+                  </label>
+                  <span class="badge text-bg-success" id="gVal">0</span>
+                </div>
+                <input type="range" class="form-range" min="0" max="255" value="0" id="gRange" />
+              </div>
+
+              <!-- Azul -->
+              <div class="p-3 rounded-4 border bg-white">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <label for="bRange" class="form-label mb-0 fw-semibold">
+                    Azul (B)
+                  </label>
+                  <span class="badge text-bg-primary" id="bVal">0</span>
+                </div>
+                <input type="range" class="form-range" min="0" max="255" value="0" id="bRange" />
+              </div>
+
+              <!-- Inputs + Picker -->
+              <div class="p-3 rounded-4 border bg-white">
+                <div class="row g-3 align-items-end">
+                  <div class="col-12">
+                    <div class="fw-semibold">Entrada decimal + Picker</div>
+                    <div class="small text-secondary">Escribe R/G/B o selecciona un color.</div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="rInput" class="form-label mb-1">R</label>
+                    <input type="number" class="form-control" id="rInput" min="0" max="255" value="0" />
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="gInput" class="form-label mb-1">G</label>
+                    <input type="number" class="form-control" id="gInput" min="0" max="255" value="0" />
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <label for="bInput" class="form-label mb-1">B</label>
+                    <input type="number" class="form-control" id="bInput" min="0" max="255" value="0" />
+                  </div>
+
+                  <div class="col-12">
+                    <div class="d-flex align-items-center gap-3">
+                      <input
+                        type="color"
+                        class="form-control form-control-color"
+                        id="colorPicker"
+                        value="#000000"
+                        title="Elige un color"
+                      />
+                      <div class="small text-secondary">
+                        El picker actualiza los canales automáticamente.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Salidas -->
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="p-3 rounded-4 border bg-white h-100">
+                    <div class="small text-secondary">RGB</div>
+                    <div class="fs-5 fw-bold" id="rgbText">rgb(0, 0, 0)</div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div class="p-3 rounded-4 border bg-white h-100">
+                    <div class="small text-secondary">HEX</div>
+                    <div class="fs-5 fw-bold" id="hexText">#000000</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer bg-white border-0 pt-0">
+            <div class="small text-secondary">
+              Consejo: prueba “Aleatorio” para descubrir combinaciones rápido.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Card vista previa -->
+      <section class="col-12 col-lg-6" id="preview">
+        <div class="card card-soft shadow-sm h-100">
+          <div class="card-header bg-white border-0 pb-0">
+            <h2 class="h5 mb-0">Vista previa</h2>
+            <p class="text-secondary small mb-0 mt-2">
+              El recuadro refleja el color actual y muestra RGB/HEX.
+            </p>
+          </div>
+
+          <div class="card-body">
+            <div id="colorBox" class="color-box rounded-4 border">
+              <div class="overlay-info">
+                <div class="fw-bold" id="overlayHex">#000000</div>
+                <div class="small" id="overlayRgb">rgb(0, 0, 0)</div>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <div class="p-3 rounded-4 border bg-white">
+                <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+                  <div class="small text-secondary">
+                    Tip: usa el HEX copiado en CSS, Figma o Power BI.
+                  </div>
+                  <span class="badge text-bg-light border">
+                    Sincronización en tiempo real
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer bg-white border-0 pt-0">
+            <div class="small text-secondary">
+              Atajo: mueve sliders con el mouse para cambios finos.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- About -->
+    <section class="mt-4" id="about">
+      <div class="card card-soft shadow-sm">
+        <div class="card-body">
+          <h3 class="h6 mb-2">Acerca de</h3>
+          <p class="text-secondary mb-0 small">
+            Esta aplicación convierte canales RGB a HEX y permite seleccionar colores con picker.
+            Ideal para prácticas de UI y manipulación del DOM con JavaScript.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-top bg-white">
+    <div class="container py-4">
+      <div class="row g-2 align-items-center">
+        <div class="col-12 col-md">
+          <div class="small text-secondary">
+            © <span id="year"></span> Color Studio — Todos los derechos reservados.
+          </div>
+        </div>
+        <div class="col-12 col-md-auto">
+          <div class="small text-secondary">
+            Programador: <span class="fw-semibold">Victor Pinedo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS (opcional, para el navbar colapsable) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
